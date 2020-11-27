@@ -38,26 +38,34 @@ class Restaurant extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-                padding: EdgeInsets.only(bottom: 16),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Image.network(
-                      thumb,
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
-                      height: 200,
-                    ))),
-            Padding(
-              padding: EdgeInsets.only(bottom: 16),
-              child: Text(
-                title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-              ),
-            ),
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Column(
+                      children: <Widget>[
+                        Padding(
+                            padding: EdgeInsets.only(bottom: 16),
+                            child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                child: Image.network(
+                                  thumb,
+                                  fit: BoxFit.fill,
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 200,
+                                ))),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 16),
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 22),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
                   return Padding(
                       padding: EdgeInsets.only(bottom: 12),
                       child: Row(
@@ -66,17 +74,17 @@ class Restaurant extends StatelessWidget {
                             Container(
                               width: 40,
                               child: Text(
-                                "${days[index]['type'][0].toUpperCase()}${days[index]['type'].substring(1)} ",
+                                "${days[index - 1]['type'][0].toUpperCase()}${days[index - 1]['type'].substring(1)} ",
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),
                             Text(
-                              showTime(days[index]),
+                              showTime(days[index - 1]),
                               style: TextStyle(fontSize: 16),
                             )
                           ]));
                 },
-                itemCount: days.length,
+                itemCount: days.length + 1,
               ),
             ),
           ],
