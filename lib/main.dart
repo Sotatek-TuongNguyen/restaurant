@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant/app/combine_provider.dart';
-import 'package:restaurant/restaurant/restaurant_screen.dart';
+import 'package:restaurant/ui/restaurants/restaurant_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

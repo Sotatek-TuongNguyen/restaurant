@@ -1,37 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:restaurant/model/restaurant.dart';
 
-class Restaurant extends StatelessWidget {
-  final id, title, thumb, days;
+class RestaurantDetail extends StatelessWidget {
+  final Restaurant data;
 
-  String showTime(day) {
-    if (day != null &&
-        !["", null].contains(day["open"]) &&
-        !["", null].contains(day["close"])) {
-      var now = new DateTime.now();
-      final startTime =
-          DateTime.parse('${now.year}-${now.month}-${now.day} ${day["open"]}');
-      final endTime =
-          DateTime.parse('${now.year}-${now.month}-${now.day} ${day["close"]}');
-      return "${DateFormat.jm().format(startTime)} - ${DateFormat.jm().format(endTime)}";
-    } else {
-      return 'Closed';
-    }
-  }
-
-  Restaurant(
-      {Key key,
-      @required this.id,
-      @required this.title,
-      @required this.thumb,
-      @required this.days})
-      : super(key: key);
+  RestaurantDetail(this.data);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(data?.title),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -50,7 +29,7 @@ class Restaurant extends StatelessWidget {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                                 child: Image.network(
-                                  thumb,
+                                  data?.thumb,
                                   fit: BoxFit.fill,
                                   width: MediaQuery.of(context).size.width,
                                   height: 200,
@@ -58,7 +37,7 @@ class Restaurant extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(bottom: 16),
                           child: Text(
-                            title,
+                            data?.title,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 22),
                           ),
@@ -74,17 +53,17 @@ class Restaurant extends StatelessWidget {
                             Container(
                               width: 40,
                               child: Text(
-                                "${days[index - 1]['type'][0].toUpperCase()}${days[index - 1]['type'].substring(1)} ",
+                                "${data?.days[index - 1]['type'][0].toUpperCase()}${data?.days[index - 1]['type'].substring(1)} ",
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),
                             Text(
-                              showTime(days[index - 1]),
+                              Restaurant().showTime(data?.days[index - 1]),
                               style: TextStyle(fontSize: 16),
                             )
                           ]));
                 },
-                itemCount: days.length + 1,
+                itemCount: data?.days?.length != null ? data?.days?.length : 1,
               ),
             ),
           ],

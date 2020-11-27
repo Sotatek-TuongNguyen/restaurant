@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant/model/restaurant.dart';
-import 'package:restaurant/restaurant/item_restaurant.dart';
+import 'package:restaurant/ui/widgets/item_restaurant.dart';
 import 'package:restaurant/stores/restaurant_store/restaurant_store.dart';
 
 class RestaurantScreen extends StatefulWidget {
@@ -40,11 +40,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   child: ListView.builder(
                     itemCount: snapshot?.data?.length,
                     itemBuilder: (BuildContext context, int index) {
-                      String id = snapshot?.data[index]?.id;
-                      String title = snapshot?.data[index]?.title;
-                      String thumb = snapshot?.data[index]?.thumb;
-                      List days = snapshot?.data[index]?.days;
-                      return ItemRestaurant(id, title, thumb, days);
+                      Restaurant data = snapshot?.data[index];
+                      return ItemRestaurant(data);
                     },
                   ),
                 ),
