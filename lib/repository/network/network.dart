@@ -16,7 +16,7 @@ class Network {
     if (response.statusCode != 200) {
       print('response error = ' + response.body);
     }
-    print('response = ' + response.body);
+    // print('response = ' + response.body);
     return response.body;
   }
 }
