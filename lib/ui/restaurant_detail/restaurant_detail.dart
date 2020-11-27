@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:restaurant/model/restaurant.dart';
 
 class RestaurantDetail extends StatelessWidget {
-  final Restaurant data;
+  final Restaurant restaurant;
 
-  RestaurantDetail(this.data);
+  RestaurantDetail(this.restaurant);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(data?.title),
+        title: Text(restaurant?.title),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -24,20 +24,21 @@ class RestaurantDetail extends StatelessWidget {
                     return Column(
                       children: <Widget>[
                         Padding(
-                            padding: EdgeInsets.only(bottom: 16),
-                            child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                child: Image.network(
-                                  data?.thumb,
-                                  fit: BoxFit.fill,
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 200,
-                                ))),
+                          padding: EdgeInsets.only(bottom: 16),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: Image.network(
+                              restaurant?.thumb,
+                              fit: BoxFit.fill,
+                              width: MediaQuery.of(context).size.width,
+                              height: 200,
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 16),
                           child: Text(
-                            data?.title,
+                            restaurant?.title,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 22),
                           ),
@@ -46,24 +47,28 @@ class RestaurantDetail extends StatelessWidget {
                     );
                   }
                   return Padding(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: 40,
-                              child: Text(
-                                "${data?.days[index - 1]['type'][0].toUpperCase()}${data?.days[index - 1]['type'].substring(1)} ",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                            Text(
-                              Restaurant().showTime(data?.days[index - 1]),
-                              style: TextStyle(fontSize: 16),
-                            )
-                          ]));
+                    padding: EdgeInsets.only(bottom: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          width: 40,
+                          child: Text(
+                            "${restaurant?.days[index - 1]['type'][0].toUpperCase()}${restaurant?.days[index - 1]['type'].substring(1)} ",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        Text(
+                          Restaurant().showTime(restaurant?.days[index - 1]),
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  );
                 },
-                itemCount: data?.days?.length != null ? data?.days?.length : 1,
+                itemCount: restaurant?.days?.length != null
+                    ? restaurant?.days?.length
+                    : 1,
               ),
             ),
           ],

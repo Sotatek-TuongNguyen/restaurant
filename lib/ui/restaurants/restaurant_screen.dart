@@ -18,37 +18,38 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     _restaurantStore = Provider.of<RestaurantStore>(context);
     listRestaurants = _restaurantStore.getListRestaurant(context);
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Restaurant Screen'),
-          centerTitle: true,
-        ),
-        body: FutureBuilder<List<Restaurant>>(
-          future: listRestaurants,
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Restaurant>> snapshot) {
-            Widget children;
-            if (!snapshot.hasData) {
-              children = Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              children = Container(
-                child: RefreshIndicator(
-                  onRefresh: () {
-                    return Future.delayed(Duration(seconds: 2));
+      appBar: AppBar(
+        title: Text('Restaurant Screen'),
+        centerTitle: true,
+      ),
+      body: FutureBuilder<List<Restaurant>>(
+        future: listRestaurants,
+        builder:
+            (BuildContext context, AsyncSnapshot<List<Restaurant>> snapshot) {
+          Widget children;
+          if (!snapshot.hasData) {
+            children = Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            children = Container(
+              child: RefreshIndicator(
+                onRefresh: () {
+                  return Future.delayed(Duration(seconds: 2));
+                },
+                child: ListView.builder(
+                  itemCount: snapshot?.data?.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Restaurant restaurant = snapshot?.data[index];
+                    return ItemRestaurant(restaurant);
                   },
-                  child: ListView.builder(
-                    itemCount: snapshot?.data?.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Restaurant data = snapshot?.data[index];
-                      return ItemRestaurant(data);
-                    },
-                  ),
                 ),
-              );
-            }
-            return children;
-          },
-        ));
+              ),
+            );
+          }
+          return children;
+        },
+      ),
+    );
   }
 }
