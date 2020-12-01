@@ -1,53 +1,85 @@
 import 'package:intl/intl.dart';
 
 class Restaurant {
-  final String id;
-  final String title;
-  final String thumb;
-  final List days;
+  final String name;
+  final String operatingHours;
 
-  Restaurant({this.id, this.title, this.thumb, this.days});
+  Restaurant({this.name, this.operatingHours});
 
   Restaurant.fromJson(Map<String, dynamic> jsonObject)
-      : id = jsonObject['id'],
-        title = jsonObject['title'],
-        thumb = jsonObject['thumb'],
-        days = jsonObject['days'];
+      : name = jsonObject['name'],
+        operatingHours = jsonObject['operatingHours'];
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'title': title, 'thumb': thumb, 'days': days};
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'operatingHours': operatingHours,
+      };
 
-  String checkTime(days) {
+  List<String> listWeekDays() {
+    List<String> weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    return weekdays;
+  }
+
+  Map showListOperatingHours(operatingHours) {
+    final List array = operatingHours.split(' / ');
+    Map result = {};
+    array.forEach((element) {
+      List listDays = getListDay(element);
+      final List<String> dayArr = element.split(", ");
+      final String lastDay = dayArr.last;
+      final String timeString = lastDay.substring(lastDay.indexOf(" ") + 1);
+      listDays.forEach((day) {
+        result[day] = timeString;
+      });
+    });
+    return result;
+  }
+
+  String checkTime(String string) {
+    final now = new DateTime.now();
+    final List<String> dayArr = string.split(", ");
+    final String lastDay = dayArr.last;
+    final String timeString = lastDay.substring(lastDay.indexOf(" ") + 1);
+    final List arrayDate = timeString.split(' - ');
+    final startTime = new DateFormat.yMd().add_jm().parse(
+        "${new DateFormat.yMd().format(now)} ${arrayDate[0].toUpperCase()}");
+    final endTime = new DateFormat.yMd().add_jm().parse(
+        "${new DateFormat.yMd().format(now)} ${arrayDate[1].toUpperCase()}");
+    if (now.isAfter(startTime) && now.isBefore(endTime)) {
+      return 'Opening';
+    } else {
+      return 'Closed';
+    }
+  }
+
+  String checkOperatingHours(operatingHours) {
     var now = new DateTime.now();
-    final List weekdays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-    var nowday = weekdays[now.weekday - 1];
-    var data = days.where((item) => item['type'] == nowday).toList();
-    if (data.length > 0 && data[0]["open"] != "" && data[0]["close"] != "") {
-      final startTime = DateTime.parse(
-          '${now.year}-${now.month}-${now.day} ${data[0]["open"]}');
-      final endTime = DateTime.parse(
-          '${now.year}-${now.month}-${now.day} ${data[0]["close"]}');
-      if (now.isAfter(startTime) && now.isBefore(endTime)) {
-        return 'Opening';
-      } else {
-        return 'Closed';
-      }
+    final List array = operatingHours.split(' / ');
+    final List<String> weekdays = listWeekDays();
+    var day = array.firstWhere(
+        (e) => getListDay(e).contains(weekdays[now.weekday - 1]),
+        orElse: () => null);
+    if (day != null) {
+      return checkTime(day);
     }
     return 'Closed';
   }
 
-  String showTime(day) {
-    if (day != null &&
-        !["", null].contains(day["open"]) &&
-        !["", null].contains(day["close"])) {
-      var now = new DateTime.now();
-      final startTime =
-          DateTime.parse('${now.year}-${now.month}-${now.day} ${day["open"]}');
-      final endTime =
-          DateTime.parse('${now.year}-${now.month}-${now.day} ${day["close"]}');
-      return "${DateFormat.jm().format(startTime)} - ${DateFormat.jm().format(endTime)}";
-    } else {
-      return 'Closed';
-    }
+// Get array day from string
+  List getListDay(String string) {
+    final List<String> weekdays = listWeekDays();
+    List<String> days = [];
+    final List<String> dayArr = string.split(", ");
+    dayArr.asMap().forEach((index, data) {
+      var value = index == dayArr.length - 1 ? data.split(" ")[0] : data;
+      var valueArr = value.split('-');
+      if (valueArr.length > 1) {
+        days.addAll(weekdays.sublist(
+            weekdays.indexOf(valueArr[0]), weekdays.indexOf(valueArr[1]) + 1));
+      } else {
+        days.addAll([valueArr[0]]);
+      }
+    });
+    return days;
   }
 }

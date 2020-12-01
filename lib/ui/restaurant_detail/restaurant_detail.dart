@@ -8,9 +8,14 @@ class RestaurantDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> weekdays = Restaurant().listWeekDays();
+
+    final arrayTime =
+        Restaurant().showListOperatingHours(restaurant?.operatingHours);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(restaurant?.title),
+        title: Text(restaurant?.name),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -19,57 +24,43 @@ class RestaurantDetail extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: ListView.builder(
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 16),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            child: Image.network(
-                              restaurant?.thumb,
-                              fit: BoxFit.fill,
-                              width: MediaQuery.of(context).size.width,
-                              height: 200,
-                            ),
-                          ),
-                        ),
-                        Padding(
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return Container(
+                        child: Padding(
                           padding: EdgeInsets.only(bottom: 16),
                           child: Text(
-                            restaurant?.title,
+                            restaurant?.name,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 22),
                           ),
                         ),
-                      ],
-                    );
-                  }
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          width: 40,
-                          child: Text(
-                            "${restaurant?.days[index - 1]['type'][0].toUpperCase()}${restaurant?.days[index - 1]['type'].substring(1)} ",
+                      );
+                    }
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: 40,
+                            child: Text(
+                              // "${restaurant?.days[index - 1]['type'][0].toUpperCase()}${restaurant?.days[index - 1]['type'].substring(1)} ",
+                              weekdays[index - 1],
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                          Text(
+                            arrayTime[weekdays[index - 1]] != null
+                                ? arrayTime[weekdays[index - 1]]
+                                : 'Closed',
                             style: TextStyle(fontSize: 16),
                           ),
-                        ),
-                        Text(
-                          Restaurant().showTime(restaurant?.days[index - 1]),
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                itemCount: restaurant?.days?.length != null
-                    ? restaurant?.days?.length
-                    : 1,
-              ),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: weekdays.length + 1),
             ),
           ],
         ),

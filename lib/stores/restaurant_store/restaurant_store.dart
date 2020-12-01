@@ -24,7 +24,7 @@ abstract class _RestaurantStore with Store {
     List<Restaurant> result = List<Restaurant>();
     try {
       var response = await Network.fetchData();
-      Iterable list = json.decode(response);
+      Iterable list = json.decode(response)['restaurants'];
       result = list.map((model) => Restaurant.fromJson(model)).toList();
     } catch (exception) {
       print('getListRestaurant exception = ' + exception.toString());

@@ -10,7 +10,7 @@ class ItemRestaurant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      key: Key('item $restaurant.id'),
+      key: Key('item $restaurant.name'),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -22,21 +22,10 @@ class ItemRestaurant extends StatelessWidget {
         },
         child: Padding(
           padding:
-              const EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
+              const EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(right: 16),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  child: Image.network(
-                    restaurant?.thumb,
-                    width: 150,
-                    height: 150,
-                  ),
-                ),
-              ),
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,13 +33,14 @@ class ItemRestaurant extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(bottom: 12),
                       child: Text(
-                        restaurant?.title,
+                        restaurant?.name,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 22),
                       ),
                     ),
                     Text(
-                      Restaurant().checkTime(restaurant?.days),
+                      Restaurant()
+                          .checkOperatingHours(restaurant.operatingHours),
                       style: TextStyle(color: Colors.grey.shade600),
                     ),
                   ],
