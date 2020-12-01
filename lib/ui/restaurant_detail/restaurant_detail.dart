@@ -37,28 +37,29 @@ class RestaurantDetail extends StatelessWidget {
                         ),
                       );
                     }
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            width: 40,
-                            child: Text(
-                              // "${restaurant?.days[index - 1]['type'][0].toUpperCase()}${restaurant?.days[index - 1]['type'].substring(1)} ",
-                              weekdays[index - 1],
+                    if (arrayTime[weekdays[index - 1]] != null) {
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              width: 40,
+                              child: Text(
+                                weekdays[index - 1],
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            Text(
+                              arrayTime[weekdays[index - 1]],
                               style: TextStyle(fontSize: 16),
                             ),
-                          ),
-                          Text(
-                            arrayTime[weekdays[index - 1]] != null
-                                ? arrayTime[weekdays[index - 1]]
-                                : 'Closed',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    );
+                          ],
+                        ),
+                      );
+                    } else {
+                      return Container();
+                    }
                   },
                   itemCount: weekdays.length + 1),
             ),
