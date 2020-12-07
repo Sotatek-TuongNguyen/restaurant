@@ -78,9 +78,9 @@ class Restaurant {
           days.addAll(weekdays.sublist(weekdays.indexOf(valueArr[0]),
               weekdays.indexOf(valueArr[1]) + 1));
         } else {
-          days.addAll(weekdays.sublist(0, weekdays.indexOf(valueArr[0]) + 1));
+          days.addAll(weekdays.sublist(0, weekdays.indexOf(valueArr[1]) + 1));
           days.addAll(
-              weekdays.sublist(weekdays.indexOf(valueArr[1]), weekdays.length));
+              weekdays.sublist(weekdays.indexOf(valueArr[0]), weekdays.length));
         }
       } else {
         days.addAll([valueArr[0]]);

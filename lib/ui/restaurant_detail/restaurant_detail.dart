@@ -37,29 +37,27 @@ class RestaurantDetail extends StatelessWidget {
                         ),
                       );
                     }
-                    if (arrayTime[weekdays[index - 1]] != null) {
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: 40,
-                              child: Text(
-                                weekdays[index - 1],
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                            Text(
-                              arrayTime[weekdays[index - 1]],
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: 40,
+                            child: Text(
+                              weekdays[index - 1],
                               style: TextStyle(fontSize: 16),
                             ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return Container();
-                    }
+                          ),
+                          Text(
+                            arrayTime[weekdays[index - 1]] != null
+                                ? arrayTime[weekdays[index - 1]]
+                                : "Close",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    );
                   },
                   itemCount: weekdays.length + 1),
             ),
